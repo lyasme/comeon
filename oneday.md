@@ -12,8 +12,8 @@
 | :--------------------------------------: | ---------------------------------------- |
 |             git add redme.md             | 文件添加到仓库                                  |
 |                git add .                 | 不但可以跟单一文件，还可以跟通配符，更可以跟目录，一个点就把当前目录所有未追踪的全部add了 |
-|      git commit -m 'first commit'ba      | 把文件提交到仓库                                 |
-| git remote add git@github.com:lyasme/comeon | 先建仓库，关联远程仓库                              |
+|       git commit -m 'first commit'       | 把文件提交到仓库                                 |
+| git remote add origin git@github.com:lyasme/comeon | 先建仓库，关联远程仓库                              |
 |        git push -u origin master         | 把本地的所有的内容推送到远程仓库上                        |
 
 <u>注意 ：</u>
