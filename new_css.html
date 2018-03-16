@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>css的基础</title>
+		<link rel="stylesheet" href="new_css.html" />
+		<!--
+        	导入css的三种方式
+        		1 直接在标签里使用style属性，name :style
+        		2在head中 使用style标签，在标签中使用选择符找出元素，设置属性
+        		3在外部创建样式表，使用link引入进来
+        		style优先级 权重1000
+        		！important 可以认为权重是10000
+        		权重是在累加的
+        		
+        -->
+        <style>
+        	p{
+        		color: fuchsia;
+        	}
+        	#one{
+        		color: forestgreen;
+        	}
+        	.two{
+        		color: deepskyblue;
+        		}
+        	.three{
+        		font-size: 20px;
+        		color: blueviolet;
+        	}
+        	a:link{
+        		color: red;        		
+        	}
+        	a:visited{
+        		color: antiquewhite;
+        	}
+        	h1,.four{
+        		color: red;
+        		
+        	}
+        	
+        </style>
+	</head>
+	<body>
+		<p style="color: deeppink !important;">代码真好敲，敲代码使我快乐</p>
+		<p id="one">赣州的天气真暖和，可惜我丢了手环，没激活水卡</p>
+		<p class="two three">赣州的天气真暖和，可惜我丢了手环，没激活水卡dfgh</p>
+		<br />
+		<a href="http://baidu.com">baiduyixianijiuzhidao</a>
+		<h1>我是大标题</h1>
+		<h2 class="four">我是老二呀，挣钱啊不给力啊你</h2>
+	</body>
+</html>
