@@ -1,0 +1,95 @@
+  20180317  
+  早上：看Django文档 
+	1.Web框架为应用程序提供一套程序框架，这样你就可以专注的编写清晰，易维护的代码，而无需
+		从头做起。
+	2.models.py 文件主要用一个Python类来描述数据表，称为模型，运用这个类，你可以通过简单python代码来
+	创建，检索，更新，删除数据库中的记录而无序写一条一条的SQL语句。
+	3.views.py 文件包含了页面的业务逻辑，last_books()函数叫视图。
+	4.urls.py指出了什么样的url调用什么视图，在这个例子中/last/url将会调用last_books()这个函数。换句话说，如果你的域名是
+	example.com,任何人浏览网址http://example.com/last/将会调用last_books()这个函数。
+	5.last_books.html是模板，它描述这个页面的设计是如何的，用带逻辑声明的模板语言，如{% for book in book_list %}
+
+	模型-视图-控制器（MVC）,mvc是一种软件开发的方法，它把代码的定义和数据访问的方法（模型）与逻辑（控制器）还有用户接口
+	（视图）分开来。
+	
+	错误页面，执行流程图。assert False 可以代替print来调试页面
+	
+	在python代码中使用Django模板的最基本方式如下：
+	1.可以用原始的模板代码字符串创建一个Template对象，Django同样支持指定模板文件路径的方式来创建Template对象
+	2.调用模板对象的render方法，并且传入一些context，它将返回一个基于模板的展现字符串，模板中的变量和标签被context代替。
+	
+下午：开始一个生鲜超市的项目
+	1.创建一个项目的工程，setting.py 里面配置templates ：'DIRS': [os.path.join(BASE_DIR,'templates'),]，然后在manager.py同级创建一个
+	templates文件夹--》配置mysql 数据库。default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'HOST':'localhost',
+        'PORT':'3306',
+        'USER':'root',
+        'PASSWORD':'rock1204',
+        'NAME': 'tiantian',       ----》创建数据库天天 create database tiantian charset=utf8;
+	
+	？？？用命令行进不了数据库 mysql -uroot -p 显示进不去 报错信息（Can't connect to local MySQL server through socket '/var/run/mysqld/mysqld.sock' (2)
+）
+	2.setting.py 里配置静态文件目录   STATICFILES_DIRS=[
+    							os.path.join(BASE_DIR,'static')
+	---》》manmager.py 同级创建一个文件夹。---》》把要用的css，js，image拷贝到static文件夹里面。
+	
+	3.在app里面的models设计模型类：--》setting.py里注册app ，然后迁移。python manage.py startapp app
+	python manage.py makemigrations  python manager.py migrate
+
+	app/model.py 
+	class UserInfo(models.Model):
+   		 uname=models.CharField(max_length=20)
+    		 upwd=models.CharField(max_length=40)
+    		 uemail=models.CharField(max_length=30)
+    		 ushou=models.CharField(max_length=20)
+    		 uaddress=models.CharField(max_length=100)
+    		 uyouban=models.CharField(max_length=6)
+    		 uphone=models.CharField(max_length=11)
+	
+	4.App.views.py 里面显示写注册页面的逻辑：def register(request):
+    							return render(request,'App/register.html')
+	5.去根节点里配置urls （？？？用的django2 path包安装不上，升级pip 也安装不上），然后App里面新建一个urls.py文件
+	
+	6.模板继承
+	7.#default，blank是Python层面的约束，不影响数据库的表结构，不需要迁移。
+	8.<form action="/user/register_handle" method="post">register.html -->再到views.py中接收数据，创建对象，存储数据到models
+#coding=utf-8
+from django.shortcuts import render, redirect
+from hashlib import sha1
+
+
+# Create your views here.
+from App.models import UserInfo
+
+
+def register(request):
+    return render(request,'App/register.html')
+
+def register_handle(request):
+    #接收用户输入
+    post=request.POST
+    uname=post.get('user_name')
+    upwd=post.get('pwd')
+    upwd2= post.get('cpwd')
+    uemail=post.get('email')
+    
+    #判断两次密码
+    if upwd!=upwd2:
+        return redirect('/user/register/')
+    
+    #密码加密
+    s1=sha1
+    s1.update(upwd)  #update接收upwd这个参数
+    upwd3=s1.hexdigest()
+    
+    #创建对象
+    user=UserInfo()
+    user.uname=uname
+    user.upwd=upwd3
+    user.uemail=uemail
+    user.save()
+    
+    #注册成功，转移到登录页面
+    return redirect('/user/login')
+    
